@@ -16,7 +16,7 @@ namespace Northwind.EntityFrameworks
         }
 
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int RegionID { get; set; }
+        public int? RegionID { get; set; }
 
         [Required]
         [StringLength(50)]

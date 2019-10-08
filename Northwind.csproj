@@ -166,6 +166,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
+    <Compile Include="Controllers\RegionController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="EntityFrameworks\Alphabetical_list_of_product.cs" />
     <Compile Include="EntityFrameworks\Category.cs" />
@@ -202,7 +203,9 @@
     <Compile Include="ViewModels\CustomCustomerViewModel.cs" />
     <Compile Include="ViewModels\CustomOrderViewModel.cs" />
     <Compile Include="ViewModels\CustomOrderViewModel2.cs" />
+    <Compile Include="ViewModels\CustomRegionViewModel.cs" />
     <Compile Include="ViewModels\ProductViewModel.cs" />
+    <Compile Include="ViewModels\RegionDetailViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
