@@ -10,7 +10,7 @@ namespace Northwind.ViewModels
 {
     public class ProductViewModel
     {
-        public int ProductID { get; set; }
+        public int? ProductID { get; set; }
 
         [Required]
         [StringLength(40)]
@@ -33,6 +33,10 @@ namespace Northwind.ViewModels
         public short? ReorderLevel { get; set; }
 
         public bool Discontinued { get; set; }
+
+        public string ProductType { get; set; }
+
+        public Dictionary<string, string> ProductDetail { get; set; }
 
         public ProductViewModel ()
         {

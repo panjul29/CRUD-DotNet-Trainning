@@ -84,3 +84,6 @@ C:\Users\Padepokan79\source\repos\Northwind\obj\Debug\Northwind.csproj.CopyCompl
 C:\Users\Padepokan79\source\repos\Northwind\obj\Debug\Northwind.dll
 C:\Users\Padepokan79\source\repos\Northwind\obj\Debug\Northwind.pdb
 C:\Users\Padepokan79\source\repos\Northwind\obj\Debug\Northwind.csprojAssemblyReference.cache
+C:\Users\Padepokan79\source\repos\Northwind\bin\AutoMapper.dll
+C:\Users\Padepokan79\source\repos\Northwind\bin\AutoMapper.pdb
+C:\Users\Padepokan79\source\repos\Northwind\bin\AutoMapper.xml

@@ -45,6 +45,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=9.0.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>packages\AutoMapper.9.0.0\lib\net461\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -163,6 +166,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
+    <Compile Include="Controllers\CustomProductController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
@@ -204,8 +208,13 @@
     <Compile Include="ViewModels\CustomOrderViewModel.cs" />
     <Compile Include="ViewModels\CustomOrderViewModel2.cs" />
     <Compile Include="ViewModels\CustomRegionViewModel.cs" />
+    <Compile Include="ViewModels\FoodsAndBeverageItems.cs" />
+    <Compile Include="ViewModels\GarmentItems.cs" />
+    <Compile Include="ViewModels\MaterialItems.cs" />
+    <Compile Include="ViewModels\CustomProductViewModel.cs" />
     <Compile Include="ViewModels\ProductViewModel.cs" />
     <Compile Include="ViewModels\RegionDetailViewModel.cs" />
+    <Compile Include="ViewModels\TransportationServices.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />

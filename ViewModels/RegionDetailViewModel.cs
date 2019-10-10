@@ -52,20 +52,16 @@ namespace Northwind.ViewModels
 
         public RegionDetailViewModel(Region region)
         {
-            this.RegionID = region.RegionID;
+            string tem = region.RegionDescription;
+            RegionID = region.RegionID;
 
-            if (!string.IsNullOrEmpty(region.RegionDescription))
+            if (tem.Contains("|"))
             {
-                char[] delimiter = { '|' };
-                String[] regionDetailData = region.RegionDescription.Split(delimiter);
-
-                if (regionDetailData.Length == 4)
-                {
-                    this.RegionName = regionDetailData[0];
-                    this.RegionLongitude = regionDetailData[1];
-                    this.RegionLatitude = regionDetailData[2];
-                    this.Country = regionDetailData[3].Trim();
-                }
+                var data = tem.Split('|');
+                RegionName = data[0];
+                RegionLongitude = data[1];
+                RegionLatitude = data[2];
+                Country = data[3].Trim();
             }
             else
             {
