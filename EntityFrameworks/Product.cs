@@ -14,7 +14,7 @@ namespace Northwind.EntityFrameworks
             Order_Details = new HashSet<Order_Detail>();
         }
 
-        public int? ProductID { get; set; }
+        public int ProductID { get; set; }
 
         [Required]
         [StringLength(40)]

@@ -11,55 +11,81 @@ namespace Northwind.ViewModels
 {
     public class CustomProductViewModel : ProductViewModel
     {
-        public FoodsAndBeverageItems FoodAndBeverages{get;set;}
-
-        public MaterialItems Materials { get; set; }
-
-        public GarmentItems Garments { get; set; }
-
-        public TransportationServices Transportations { get; set; }
-
-
         public CustomProductViewModel()
         {
 
         }
 
-        //public CustomProductViewModel(Product product)
-        //{
-        //    ProductID = product.ProductID;
-        //    ProductName = product.ProductName;
-        //    SupplierID = product.SupplierID;
-        //    CategoryID = product.CategoryID;
-        //    QuantityPerUnit = product.QuantityPerUnit;
-        //    UnitPrice = product.UnitPrice;
-        //    UnitsInStock = product.UnitsInStock;
-        //    UnitsOnOrder = product.UnitsOnOrder;
-        //    ReorderLevel = product.ReorderLevel;
-        //    Discontinued = product.Discontinued;
-        //    ProductType = product.ProductType;
-        //    ProductDetail = null ;
-        //}
+        public CustomProductViewModel(Product product)
+        {
+            ProductID = product.ProductID;
+            ProductName = product.ProductName;
+            SupplierID = product.SupplierID;
+            CategoryID = product.CategoryID;
+            QuantityPerUnit = product.QuantityPerUnit;
+            UnitPrice = product.UnitPrice;
+            UnitsInStock = product.UnitsInStock;
+            UnitsOnOrder = product.UnitsOnOrder;
+            ReorderLevel = product.ReorderLevel;
+            Discontinued = product.Discontinued;
+            ProductType = product.ProductType;
+
+            if (ProductType != null)
+            {
+                switch (ProductType)
+                {
+                    case "FoodAndBeverageItems":
+                        FoodsAndBeverageItems food = new FoodsAndBeverageItems(product);
+                        ProductDetail = food.fromFoodToDict();
+                        break;
+                    case "GarmentItems":
+                        GarmentItems garment = new GarmentItems(product);
+                        ProductDetail = garment.fromGarmentToDict();
+                        break;
+                    case "MaterialItems":
+                        MaterialItems materi = new MaterialItems(product);
+                        ProductDetail = materi.fromMaterialToDict();
+                        break;
+                    case "TransportationServices":
+                        TransportationServices trans = new TransportationServices(product);
+                        ProductDetail = trans.fromTransToDict();
+                        break;
+                    default:
+                        ProductDetail = null;
+                        break;
+                }
+            }
+            else
+            {
+                ProductDetail = null;
+            }
+        }
 
         public Product convertToProduct()
         {
             var description = "";
-            
+            var config = new MapperConfiguration(cfg => { });
+            var mapper = new Mapper(config);
+
             if (this.ProductType.Contains("FoodAndBeverageItems"))
             {
-                description = FoodAndBeverages.convertToString();
+                FoodsAndBeverageItems foods = mapper.Map<FoodsAndBeverageItems>(this.ProductDetail);
+                description = foods.convertToString();
             }
             else if (this.ProductType.Contains("MaterialItems"))
             {
-                description = Materials.convertToString();
+                MaterialItems materials = mapper.Map<MaterialItems>(this.ProductDetail);
+                description = materials.convertToString();
             }
             else if (this.ProductType.Contains("GarmentItems"))
             {
-                description = Garments.convertToString();
+                GarmentItems garments = mapper.Map<GarmentItems>(this.ProductDetail);
+                description = garments.convertToString();
             }
             else if (this.ProductType.Contains("TransportationServices"))
             {
-                description = Transportations.convertToString();
+                TransportationServices transportations = mapper.Map<TransportationServices>(this.ProductDetail);
+                description = transportations.convertToString();
             }
 
             return new Product()
@@ -79,7 +105,7 @@ namespace Northwind.ViewModels
             };
         }
 
-        public Dictionary<string, object> FinalResult(List<CustomProductViewModel> listObject, string msg)
+        public Dictionary<string, object> FinalResult(List<CustomProductViewModel> listObject = null, string msg = "")
         {
             Dictionary<string, object> result = new Dictionary<string, object>();
             result.Add("Message", msg);

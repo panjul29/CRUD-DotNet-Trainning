@@ -204,6 +204,7 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\CategoryViewModel.cs" />
+    <Compile Include="ViewModels\CostCalculationViewModel.cs" />
     <Compile Include="ViewModels\CustomCustomerViewModel.cs" />
     <Compile Include="ViewModels\CustomOrderViewModel.cs" />
     <Compile Include="ViewModels\CustomOrderViewModel2.cs" />
