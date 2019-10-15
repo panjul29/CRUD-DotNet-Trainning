@@ -42,16 +42,30 @@ namespace Northwind.Controllers
 
         [Route("create")]
         [HttpPost]
-        public IHttpActionResult Create([FromBody] CustomProductViewModel dataBody)
+        public IHttpActionResult Create([FromBody] CustomProductViewModel dataBody, string condition = "", int? userDemand = 0, decimal? duration = 0)
         {
             try
             {
                 using (var db = new DB_Context())
                 {
-                    Product product = dataBody.convertToProduct();
+                    CustomProductViewModel obj = new CustomProductViewModel();
+                    Product product = new Product();
+                    if (condition != "" && userDemand != 0)
+                    {
+                        product = dataBody.convertToProduct(condition, userDemand, 0);
+                    }
+                    else if (duration != 0)
+                    {
+                        product = dataBody.convertToProduct("", 0, duration);
+                    }
+                    else
+                    {
+                        product = dataBody.convertToProduct("", 0, 0);
+                    }
+
                     db.Products.Add(product);
                     db.SaveChanges();
-                    return Ok("SIP");
+                    return Ok(obj.FinalResult(null, "Insert data Success"));
                 }
             }
             catch (Exception)

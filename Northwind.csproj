@@ -209,13 +209,16 @@
     <Compile Include="ViewModels\CustomOrderViewModel.cs" />
     <Compile Include="ViewModels\CustomOrderViewModel2.cs" />
     <Compile Include="ViewModels\CustomRegionViewModel.cs" />
-    <Compile Include="ViewModels\FoodsAndBeverageItems.cs" />
-    <Compile Include="ViewModels\GarmentItems.cs" />
-    <Compile Include="ViewModels\MaterialItems.cs" />
+    <Compile Include="ViewModels\Items\FoodsAndBeverageItems.cs" />
+    <Compile Include="ViewModels\Items\GarmentItems.cs" />
+    <Compile Include="ViewModels\Items\IItems.cs" />
+    <Compile Include="ViewModels\Items\MaterialItems.cs" />
     <Compile Include="ViewModels\CustomProductViewModel.cs" />
     <Compile Include="ViewModels\ProductViewModel.cs" />
     <Compile Include="ViewModels\RegionDetailViewModel.cs" />
-    <Compile Include="ViewModels\TransportationServices.cs" />
+    <Compile Include="ViewModels\Services\IServices.cs" />
+    <Compile Include="ViewModels\Services\TelecommunicationServices.cs" />
+    <Compile Include="ViewModels\Services\TransportationServices.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />

@@ -42,15 +42,15 @@ namespace Northwind.ViewModels
         public int rateCostCalculation(string Condition, int UserDemand)
         {
             var hasil = 0;
-            if (CostCalculationMethod.Contains("FixPerRoute"))
+            if (CostCalculationMethod.Equals("FixPerRoute"))
             {
                 hasil = 1 * CostRate;
             }
-            if (CostCalculationMethod.Contains("PerMiles"))
+            if (CostCalculationMethod.Equals("PerMiles"))
             {
                 hasil = RouteMilleage * (CostRate / 2);
             }
-            if (CostCalculationMethod.Contains("PerMilesWithCondition"))
+            if (CostCalculationMethod.Equals("PerMilesWithCondition"))
             {
                 var nilai = 0;
                 if (Condition == "GoodWeather")

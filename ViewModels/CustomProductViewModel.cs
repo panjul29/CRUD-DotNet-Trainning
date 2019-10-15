@@ -5,6 +5,8 @@ using System.Web;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Northwind.EntityFrameworks;
+using Northwind.ViewModels.Items;
+using Northwind.ViewModels.Services;
 using AutoMapper;
 
 namespace Northwind.ViewModels
@@ -36,19 +38,23 @@ namespace Northwind.ViewModels
                 {
                     case "FoodAndBeverageItems":
                         FoodsAndBeverageItems food = new FoodsAndBeverageItems(product);
-                        ProductDetail = food.fromFoodToDict();
+                        ProductDetail = food.fromItemsToDict();
                         break;
                     case "GarmentItems":
                         GarmentItems garment = new GarmentItems(product);
-                        ProductDetail = garment.fromGarmentToDict();
+                        ProductDetail = garment.fromItemsToDict();
                         break;
                     case "MaterialItems":
                         MaterialItems materi = new MaterialItems(product);
-                        ProductDetail = materi.fromMaterialToDict();
+                        ProductDetail = materi.fromItemsToDict();
                         break;
                     case "TransportationServices":
                         TransportationServices trans = new TransportationServices(product);
-                        ProductDetail = trans.fromTransToDict();
+                        ProductDetail = trans.fromServicesToDict();
+                        break;
+                    case "TelecommunicationServices":
+                        TelecommunicationServices telcom = new TelecommunicationServices(product);
+                        ProductDetail = telcom.fromServicesToDict();
                         break;
                     default:
                         ProductDetail = null;
@@ -61,31 +67,43 @@ namespace Northwind.ViewModels
             }
         }
 
-        public Product convertToProduct()
+        public Product convertToProduct(string condition = "", int? userDemand = 0, decimal? duration = 0)
         {
             var description = "";
+            decimal? price = null;
             var config = new MapperConfiguration(cfg => { });
             var mapper = new Mapper(config);
 
             if (this.ProductType.Contains("FoodAndBeverageItems"))
             {
                 FoodsAndBeverageItems foods = mapper.Map<FoodsAndBeverageItems>(this.ProductDetail);
-                description = foods.convertToString();
+                description = foods.convertItemsToString();
+                price = foods.calculateProductUnitPrice();
+
             }
             else if (this.ProductType.Contains("MaterialItems"))
             {
                 MaterialItems materials = mapper.Map<MaterialItems>(this.ProductDetail);
-                description = materials.convertToString();
+                description = materials.convertItemsToString();
+                price = materials.calculateProductUnitPrice();
             }
             else if (this.ProductType.Contains("GarmentItems"))
             {
                 GarmentItems garments = mapper.Map<GarmentItems>(this.ProductDetail);
-                description = garments.convertToString();
+                description = garments.convertItemsToString();
+                price = garments.calculateProductUnitPrice();
             }
             else if (this.ProductType.Contains("TransportationServices"))
             {
                 TransportationServices transportations = mapper.Map<TransportationServices>(this.ProductDetail);
-                description = transportations.convertToString();
+                description = transportations.convertServicesToString();
+                price = transportations.calculateProductUnitPrice(condition, userDemand, 0);
+            }
+            else if (this.ProductType.Contains("TelecommunicationServices"))
+            {
+                TelecommunicationServices telecommunications = mapper.Map<TelecommunicationServices>(this.ProductDetail);
+                description = telecommunications.convertServicesToString();
+                price = telecommunications.calculateProductUnitPrice("", 0, duration);
             }
 
             return new Product()
@@ -95,7 +113,7 @@ namespace Northwind.ViewModels
                 SupplierID = this.SupplierID,
                 CategoryID = this.CategoryID,
                 QuantityPerUnit = this.QuantityPerUnit,
-                UnitPrice = this.UnitPrice,
+                UnitPrice = price,
                 UnitsInStock = this.UnitsInStock,
                 UnitsOnOrder = this.UnitsOnOrder,
                 ReorderLevel = this.ReorderLevel,
