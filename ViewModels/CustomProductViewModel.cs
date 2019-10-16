@@ -67,7 +67,7 @@ namespace Northwind.ViewModels
             }
         }
 
-        public Product convertToProduct(string condition = "", int? userDemand = 0, decimal? duration = 0)
+        public Product convertToProduct(string condition = null, int? userDemand = null, decimal? duration = null)
         {
             var description = "";
             decimal? price = null;
@@ -97,13 +97,13 @@ namespace Northwind.ViewModels
             {
                 TransportationServices transportations = mapper.Map<TransportationServices>(this.ProductDetail);
                 description = transportations.convertServicesToString();
-                price = transportations.calculateProductUnitPrice(condition, userDemand, 0);
+                price = transportations.calculateProductUnitPrice(condition, userDemand, duration);
             }
             else if (this.ProductType.Contains("TelecommunicationServices"))
             {
                 TelecommunicationServices telecommunications = mapper.Map<TelecommunicationServices>(this.ProductDetail);
                 description = telecommunications.convertServicesToString();
-                price = telecommunications.calculateProductUnitPrice("", 0, duration);
+                price = telecommunications.calculateProductUnitPrice(condition, userDemand, duration);
             }
 
             return new Product()

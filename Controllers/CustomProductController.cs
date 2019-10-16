@@ -42,7 +42,7 @@ namespace Northwind.Controllers
 
         [Route("create")]
         [HttpPost]
-        public IHttpActionResult Create([FromBody] CustomProductViewModel dataBody, string condition = "", int? userDemand = 0, decimal? duration = 0)
+        public IHttpActionResult Create([FromBody] CustomProductViewModel dataBody, string condition = null, int? userDemand = null, decimal? duration = null)
         {
             try
             {
@@ -50,19 +50,7 @@ namespace Northwind.Controllers
                 {
                     CustomProductViewModel obj = new CustomProductViewModel();
                     Product product = new Product();
-                    if (condition != "" && userDemand != 0)
-                    {
-                        product = dataBody.convertToProduct(condition, userDemand, 0);
-                    }
-                    else if (duration != 0)
-                    {
-                        product = dataBody.convertToProduct("", 0, duration);
-                    }
-                    else
-                    {
-                        product = dataBody.convertToProduct("", 0, 0);
-                    }
-
+                    product = dataBody.convertToProduct(condition, userDemand, duration);
                     db.Products.Add(product);
                     db.SaveChanges();
                     return Ok(obj.FinalResult(null, "Insert data Success"));

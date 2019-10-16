@@ -11,6 +11,6 @@ namespace Northwind.ViewModels.Services
 
         string convertServicesToString();
 
-        decimal? calculateProductUnitPrice(string condition = "", int? userDemand = 0, decimal? duration = 0);
+        decimal? calculateProductUnitPrice(string condition = null, int? userDemand = null, decimal? duration = null);
     }
 }

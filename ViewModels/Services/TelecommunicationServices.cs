@@ -63,7 +63,7 @@ namespace Northwind.ViewModels.Services
                 this.CostRate;
         }
 
-        public decimal? calculateProductUnitPrice(string condition = "", int? userDemand = 0, decimal? duration = 0)
+        public decimal? calculateProductUnitPrice(string condition = null, int? userDemand = null, decimal? duration = null)
         {
             decimal? valueResult = null;
             decimal decCostRate = decimal.Parse(CostRate);
