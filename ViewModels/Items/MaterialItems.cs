@@ -20,6 +20,11 @@ namespace Northwind.ViewModels.Items
         public string IsConsumable { get; set; }
         public string CostRate { get; set; }
 
+        public char delimiter()
+        {
+            return '\'';
+        }
+
         public MaterialItems()
         {
 
@@ -27,12 +32,11 @@ namespace Northwind.ViewModels.Items
 
         public MaterialItems(Product product)
         {
-            char[] delimiter = { ';' };
             this.ProductID = product.ProductID;
 
             if (!string.IsNullOrEmpty(product.ProductDetail))
             {
-                string[] prod = product.ProductDetail.Split(delimiter);
+                string[] prod = product.ProductDetail.Split(delimiter());
 
                 this.ProductDescription = prod[0];
                 this.ProductionCode = prod[1];
@@ -65,13 +69,13 @@ namespace Northwind.ViewModels.Items
         public string convertItemsToString()
         {
             return
-                this.ProductDescription + ";" +
-                this.ProductionCode + ";" +
-                this.ProductionDate + ";" +
-                this.ExpiredDate + ";" +
-                this.MaterialsType + ";" +
-                this.UnitOfMeasurement + ";" +
-                this.IsConsumable + ";" +
+                this.ProductDescription + delimiter() +
+                this.ProductionCode + delimiter() +
+                this.ProductionDate + delimiter() +
+                this.ExpiredDate + delimiter() +
+                this.MaterialsType + delimiter() +
+                this.UnitOfMeasurement + delimiter() +
+                this.IsConsumable + delimiter() +
                 this.CostRate;
         }
 

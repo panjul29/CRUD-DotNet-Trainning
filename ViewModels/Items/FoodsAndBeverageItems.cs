@@ -22,6 +22,10 @@ namespace Northwind.ViewModels.Items
         public string UnitOfMeasurement { get; set; }
         public string CostRate { get; set; }
 
+        public char delimiter()
+        {
+            return '\'';
+        }
         public FoodsAndBeverageItems()
         {
 
@@ -29,12 +33,11 @@ namespace Northwind.ViewModels.Items
 
         public FoodsAndBeverageItems(Product product)
         {
-            char[] delimiter = { ';' };
             this.ProductID = product.ProductID;
 
             if (!string.IsNullOrEmpty(product.ProductDetail))
             {
-                string[] prod = product.ProductDetail.Split(delimiter);
+                string[] prod = product.ProductDetail.Split(delimiter());
 
                 this.ProductDescription = prod[0];
                 this.ProductionCode = prod[1];
@@ -71,21 +74,21 @@ namespace Northwind.ViewModels.Items
         public string convertItemsToString()
         {
             return
-                this.ProductDescription + ";" +
-                this.ProductionCode + ";" +
-                this.ProductionDate + ";" +
-                this.ExpiredDate + ";" +
-                this.NetWeight + ";" +
-                this.Ingredients + ";" +
-                this.DailyValue + ";" +
-                this.Certification + ";" +
-                this.UnitOfMeasurement + ";" +
+                this.ProductDescription + delimiter() +
+                this.ProductionCode + delimiter() +
+                this.ProductionDate + delimiter() +
+                this.ExpiredDate + delimiter() +
+                this.NetWeight + delimiter() +
+                this.Ingredients + delimiter() +
+                this.DailyValue + delimiter() +
+                this.Certification + delimiter() +
+                this.UnitOfMeasurement + delimiter() +
                 this.CostRate;
         }
 
         public decimal calculateProductUnitPrice()
         {
-            var result = Decimal.Parse(CostRate) * (Convert.ToDecimal(110) / Convert.ToDecimal(100));
+            var result = decimal.Parse(CostRate) * (Convert.ToDecimal(110) / Convert.ToDecimal(100));
             return result;
         }
     }

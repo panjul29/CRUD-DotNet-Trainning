@@ -18,6 +18,11 @@ namespace Northwind.ViewModels.Services
         public string CostCalculationMethod { get; set; }
         public string CostRate { get; set; }
 
+        public char delimiter()
+        {
+            return '\'';
+        }
+
         public TransportationServices()
         {
 
@@ -25,12 +30,11 @@ namespace Northwind.ViewModels.Services
 
         public TransportationServices(Product product)
         {
-            char[] delimiter = { ';' };
             this.ProductID = product.ProductID;
 
             if (!string.IsNullOrEmpty(product.ProductDetail))
             {
-                string[] prod = product.ProductDetail.Split(delimiter);
+                string[] prod = product.ProductDetail.Split(delimiter());
 
                 this.ProductDescription = prod[0];
                 this.VehicleType = prod[1];
@@ -59,11 +63,11 @@ namespace Northwind.ViewModels.Services
         public string convertServicesToString()
         {
             return
-                this.ProductDescription + ";" +
-                this.VehicleType + ";" +
-                this.RoutePath + ";" +
-                this.RouteMilleage + ";" +
-                this.CostCalculationMethod + ";" +
+                this.ProductDescription + delimiter() +
+                this.VehicleType + delimiter() +
+                this.RoutePath + delimiter() +
+                this.RouteMilleage + delimiter() +
+                this.CostCalculationMethod + delimiter() +
                 this.CostRate;
         }
 

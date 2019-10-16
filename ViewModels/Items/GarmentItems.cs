@@ -24,6 +24,11 @@ namespace Northwind.ViewModels.Items
         public string UnitOfMeasurement { get; set; }
         public string CostRate { get; set; }
 
+        public char delimiter()
+        {
+            return '\'';
+        }
+
         public GarmentItems()
         {
 
@@ -31,12 +36,11 @@ namespace Northwind.ViewModels.Items
 
         public GarmentItems(Product product)
         {
-            char[] delimiter = { ';' };
             this.ProductID = product.ProductID;
 
             if (!string.IsNullOrEmpty(product.ProductDetail))
             {
-                string[] prod = product.ProductDetail.Split(delimiter);
+                string[] prod = product.ProductDetail.Split(delimiter());
 
                 this.ProductDescription = prod[0];
                 this.ProductionCode = prod[1];
@@ -77,17 +81,17 @@ namespace Northwind.ViewModels.Items
         public string convertItemsToString()
         {
             return
-                this.ProductDescription + ";" +
-                this.ProductionCode + ";" +
-                this.ProductionDate + ";" +
-                this.GarmentsType + ";" +
-                this.Fabrics + ";" +
-                this.GenderRelated + ";" +
-                this.IsWaterProof + ";" +
-                this.Color + ";" +
-                this.Size + ";" +
-                this.AgeGroup + ";" +
-                this.UnitOfMeasurement + ";" +
+                this.ProductDescription + delimiter() +
+                this.ProductionCode + delimiter() +
+                this.ProductionDate + delimiter() +
+                this.GarmentsType + delimiter() +
+                this.Fabrics + delimiter() +
+                this.GenderRelated + delimiter() +
+                this.IsWaterProof + delimiter() +
+                this.Color + delimiter() +
+                this.Size + delimiter() +
+                this.AgeGroup + delimiter() +
+                this.UnitOfMeasurement + delimiter() +
                 this.CostRate;
         }
 

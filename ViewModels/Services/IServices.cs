@@ -7,6 +7,7 @@ namespace Northwind.ViewModels.Services
 {
     interface IServices
     {
+        char delimiter();
         Dictionary<string, object> fromServicesToDict();
 
         string convertServicesToString();

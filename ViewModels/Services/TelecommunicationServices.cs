@@ -17,6 +17,11 @@ namespace Northwind.ViewModels.Services
         public string CostCalculationMethod { get; set; }
         public string CostRate { get; set; }
 
+        public char delimiter()
+        {
+            return '\'';
+        }
+
         public TelecommunicationServices()
         {
 
@@ -24,12 +29,11 @@ namespace Northwind.ViewModels.Services
 
         public TelecommunicationServices(Product product)
         {
-            char[] delimiter = { ';' };
             this.ProductID = product.ProductID;
 
             if (!string.IsNullOrEmpty(product.ProductDetail))
             {
-                string[] prod = product.ProductDetail.Split(delimiter);
+                string[] prod = product.ProductDetail.Split(delimiter());
 
                 this.ProductDescription = prod[0];
                 this.PacketType = prod[1];
@@ -56,10 +60,10 @@ namespace Northwind.ViewModels.Services
         public string convertServicesToString()
         {
             return
-                this.ProductDescription + ";" +
-                this.PacketType + ";" +
-                this.PacketLimit + ";" +
-                this.CostCalculationMethod + ";" +
+                this.ProductDescription + delimiter() +
+                this.PacketType + delimiter() +
+                this.PacketLimit + delimiter() +
+                this.CostCalculationMethod + delimiter() +
                 this.CostRate;
         }
 
