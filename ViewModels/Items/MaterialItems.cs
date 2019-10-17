@@ -81,7 +81,7 @@ namespace Northwind.ViewModels.Items
 
         public decimal calculateProductUnitPrice()
         {
-            var result = decimal.Parse(CostRate) * Convert.ToDecimal(110 / 100);
+            var result = decimal.Parse(CostRate) * (Convert.ToDecimal(110) / Convert.ToDecimal(100));
             return result;
         }
     }

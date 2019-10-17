@@ -69,30 +69,30 @@ namespace Northwind.ViewModels.Services
 
         public decimal? calculateProductUnitPrice(string condition = null, int? userDemand = null, decimal? duration = null)
         {
-            decimal? valueResult = null;
+            decimal? result = null;
             decimal decCostRate = decimal.Parse(CostRate);
 
             if (CostCalculationMethod.Equals("PerSecond"))
             {
-                valueResult = decCostRate * duration;
+                result = decCostRate * duration;
             }
             else if (CostCalculationMethod.Equals("PerPacket"))
             {
                 if (PacketType.Equals("Data"))
                 {
-                    valueResult = decimal.Parse(PacketLimit) * decCostRate;
+                    result = decimal.Parse(PacketLimit) * decCostRate;
                 }
                 else
                 {
-                    valueResult = (decCostRate * duration) * decCostRate;
+                    result = (decCostRate * duration) * decCostRate;
                 }
             }
             else
             {
-                valueResult = 0;
+                result = 0;
             }
 
-            return valueResult * (Convert.ToDecimal(110) / Convert.ToDecimal(100));
+            return result * (Convert.ToDecimal(110) / Convert.ToDecimal(100));
         }
     }
 }
