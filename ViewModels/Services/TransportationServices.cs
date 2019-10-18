@@ -20,7 +20,7 @@ namespace Northwind.ViewModels.Services
 
         public char delimiter()
         {
-            return '\'';
+            return '|';
         }
 
         public TransportationServices()

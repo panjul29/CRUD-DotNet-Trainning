@@ -24,7 +24,7 @@ namespace Northwind.ViewModels.Items
 
         public char delimiter()
         {
-            return '\'';
+            return '|';
         }
         public FoodsAndBeverageItems()
         {
