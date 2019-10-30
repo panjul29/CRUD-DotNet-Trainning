@@ -8,10 +8,8 @@ using Northwind.EntityFrameworks;
 
 namespace Northwind.ViewModels.Services
 {
-    public class TransportationServices : IServices
+    public class TransportationServices : ProductDetailViewModel, IServices
     {
-        public int ProductID { get; set; }
-        public string ProductDescription { get; set; }
         public string VehicleType { get; set; }
         public string RoutePath { get; set; }
         public string RouteMilleage { get; set; }
@@ -37,11 +35,12 @@ namespace Northwind.ViewModels.Services
                 string[] prod = product.ProductDetail.Split(delimiter());
 
                 this.ProductDescription = prod[0];
-                this.VehicleType = prod[1];
-                this.RoutePath = prod[2];
-                this.RouteMilleage = prod[3];
-                this.CostCalculationMethod = prod[4];
-                this.CostRate = prod[5];
+                this.UnitProfit = prod[1];
+                this.VehicleType = prod[2];
+                this.RoutePath = prod[3];
+                this.RouteMilleage = prod[4];
+                this.CostCalculationMethod = prod[5];
+                this.CostRate = prod[6];
             }
         }
 
@@ -51,6 +50,7 @@ namespace Northwind.ViewModels.Services
 
             transDict.Add("ProductID", this.ProductID);
             transDict.Add("ProductDescription", this.ProductDescription);
+            transDict.Add("UnitPrice", this.UnitProfit);
             transDict.Add("VehicleType", this.VehicleType);
             transDict.Add("RoutePath", this.RoutePath);
             transDict.Add("RouteMilleage", this.RouteMilleage);
@@ -64,6 +64,7 @@ namespace Northwind.ViewModels.Services
         {
             return
                 this.ProductDescription + delimiter() +
+                this.UnitProfit + delimiter() +
                 this.VehicleType + delimiter() +
                 this.RoutePath + delimiter() +
                 this.RouteMilleage + delimiter() +

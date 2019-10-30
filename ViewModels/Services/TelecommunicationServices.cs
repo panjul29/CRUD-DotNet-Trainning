@@ -8,10 +8,8 @@ using Northwind.EntityFrameworks;
 
 namespace Northwind.ViewModels.Services
 {
-    public class TelecommunicationServices : IServices
+    public class TelecommunicationServices : ProductDetailViewModel, IServices
     {
-        public int ProductID { get; set; }
-        public string ProductDescription { get; set; }
         public string PacketType { get; set; }
         public string PacketLimit { get; set; }
         public string CostCalculationMethod { get; set; }
@@ -36,10 +34,11 @@ namespace Northwind.ViewModels.Services
                 string[] prod = product.ProductDetail.Split(delimiter());
 
                 this.ProductDescription = prod[0];
-                this.PacketType = prod[1];
-                this.PacketLimit = prod[2];
-                this.CostCalculationMethod = prod[3];
-                this.CostRate = prod[4];
+                this.UnitProfit = prod[1];
+                this.PacketType = prod[2];
+                this.PacketLimit = prod[3];
+                this.CostCalculationMethod = prod[4];
+                this.CostRate = prod[5];
             }
         }
 
@@ -49,6 +48,7 @@ namespace Northwind.ViewModels.Services
 
             transDict.Add("ProductID", this.ProductID);
             transDict.Add("ProductDescription", this.ProductDescription);
+            transDict.Add("UnitPrice", this.UnitProfit);
             transDict.Add("PacketType", this.PacketType);
             transDict.Add("PacketLimit", this.PacketLimit);
             transDict.Add("CostCalculationMethod", this.CostCalculationMethod);
@@ -61,6 +61,7 @@ namespace Northwind.ViewModels.Services
         {
             return
                 this.ProductDescription + delimiter() +
+                this.UnitProfit + delimiter() +
                 this.PacketType + delimiter() +
                 this.PacketLimit + delimiter() +
                 this.CostCalculationMethod + delimiter() +
@@ -71,7 +72,6 @@ namespace Northwind.ViewModels.Services
         {
             decimal? result = null;
             decimal decCostRate = decimal.Parse(CostRate);
-
             if (CostCalculationMethod.Equals("PerSecond"))
             {
                 result = decCostRate * duration;

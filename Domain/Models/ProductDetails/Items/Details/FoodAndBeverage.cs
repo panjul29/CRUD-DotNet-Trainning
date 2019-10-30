@@ -1,43 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.Collections.Generic;
 using Northwind.EntityFrameworks;
 
-namespace Northwind.ViewModels.Items
+namespace Northwind.Domain.Models.ProductDetails.Items.Details
 {
-    public class FoodsAndBeverageItems : ProductDetailViewModel ,IItems
+    public class FoodAndBeverage : Item
     {
-        public string ProductionCode { get; set; }
-        public string ProductionDate { get; set; }
         public string ExpiredDate { get; set; }
         public string NetWeight { get; set; }
         public string Ingredients { get; set; }
         public string DailyValue { get; set; }
         public string Certification { get; set; }
-        public string UnitOfMeasurement { get; set; }
-        public string CostRate { get; set; }
 
-        public char delimiter()
-        {
-            return '|';
-        }
-
-        public FoodsAndBeverageItems()
-        {
-
-        }
-
-        public FoodsAndBeverageItems(Product product)
+        public FoodAndBeverage(char Delimeter, Product product) : base(Delimeter)
         {
             this.ProductID = product.ProductID;
-
             if (!string.IsNullOrEmpty(product.ProductDetail))
             {
-                string[] prod = product.ProductDetail.Split(delimiter());
-
+                string[] prod = product.ProductDetail.Split(this.Delimeter);
                 this.ProductDescription = prod[0];
                 this.UnitProfit = prod[1];
                 this.ProductionCode = prod[2];
@@ -52,10 +31,9 @@ namespace Northwind.ViewModels.Items
             }
         }
 
-        public Dictionary<string, object> fromItemsToDict()
+        public override Dictionary<string, object> ConvertToDictionary()
         {
             Dictionary<string, object> foodDict = new Dictionary<string, object>();
-
             foodDict.Add("ProductID", this.ProductID);
             foodDict.Add("ProductDescription", this.ProductDescription);
             foodDict.Add("UnitProfit", this.UnitProfit);
@@ -72,26 +50,12 @@ namespace Northwind.ViewModels.Items
             return foodDict;
         }
 
-        public string convertItemsToString()
+        public override string ConvertToString()
         {
-            return
-                this.ProductDescription + delimiter() +
-                this.UnitProfit + delimiter() +
-                this.ProductionCode + delimiter() +
-                this.ProductionDate + delimiter() +
-                this.ExpiredDate + delimiter() +
-                this.NetWeight + delimiter() +
-                this.Ingredients + delimiter() +
-                this.DailyValue + delimiter() +
-                this.Certification + delimiter() +
-                this.UnitOfMeasurement + delimiter() +
-                this.CostRate;
+            return this.appendWithDelimiter(
+                this.ProductDescription, this.UnitProfit, this.ProductionCode, this.ProductionDate, this.ExpiredDate, this.NetWeight,
+                this.Ingredients, this.DailyValue, this.Certification, this.UnitOfMeasurement, this.CostRate);
         }
 
-        public decimal calculateProductUnitPrice()
-        {
-            var result = decimal.Parse(CostRate) * (Convert.ToDecimal(110) / Convert.ToDecimal(100));
-            return result;
-        }
     }
 }

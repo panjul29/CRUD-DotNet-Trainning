@@ -18,6 +18,23 @@ namespace Northwind.ViewModels
 
         }
 
+        public CustomProductViewModel(Product product, string condition = null, int? userDemand = null, decimal? duration = null)
+        {
+            ProductID = product.ProductID;
+            ProductName = product.ProductName;
+            SupplierID = product.SupplierID;
+            CategoryID = product.CategoryID;
+            QuantityPerUnit = product.QuantityPerUnit;
+            ProductType = product.ProductType;
+            ProductDetail = convertToList(product);
+            UnitPrice = updateToProduct(condition, userDemand, duration);
+            UnitsInStock = product.UnitsInStock;
+            UnitsOnOrder = product.UnitsOnOrder;
+            ReorderLevel = product.ReorderLevel;
+            Discontinued = product.Discontinued;
+            
+        }
+
         public CustomProductViewModel(Product product)
         {
             ProductID = product.ProductID;
@@ -31,46 +48,98 @@ namespace Northwind.ViewModels
             ReorderLevel = product.ReorderLevel;
             Discontinued = product.Discontinued;
             ProductType = product.ProductType;
+            ProductDetail = convertToList(product);
+        }
 
-            if (ProductType != null)
+        public dynamic convertToList( Product product)
+        {
+            if (product.ProductType != null)
             {
-                switch (ProductType)
+                Dictionary<string, object> result = new Dictionary<string, object>();
+                switch (product.ProductType)
                 {
                     case "FoodAndBeverageItems":
                         FoodsAndBeverageItems food = new FoodsAndBeverageItems(product);
                         ProductDetail = food.fromItemsToDict();
+                        result = ProductDetail;
                         break;
                     case "GarmentItems":
                         GarmentItems garment = new GarmentItems(product);
                         ProductDetail = garment.fromItemsToDict();
+                        result = ProductDetail;
                         break;
                     case "MaterialItems":
                         MaterialItems materi = new MaterialItems(product);
                         ProductDetail = materi.fromItemsToDict();
+                        result = ProductDetail;
                         break;
                     case "TransportationServices":
                         TransportationServices trans = new TransportationServices(product);
                         ProductDetail = trans.fromServicesToDict();
+                        result = ProductDetail;
                         break;
                     case "TelecommunicationServices":
                         TelecommunicationServices telcom = new TelecommunicationServices(product);
                         ProductDetail = telcom.fromServicesToDict();
+                        result = ProductDetail;
                         break;
                     default:
                         ProductDetail = null;
+                        result = ProductDetail;
                         break;
                 }
+                return result;
             }
             else
             {
                 ProductDetail = null;
+                return ProductDetail;
             }
         }
 
-        public Product convertToProduct(string condition = null, int? userDemand = null, decimal? duration = null)
+        public dynamic updateToProduct(string condition = null, int? userDemand = null, decimal? duration = null)
+        {
+            decimal? price = null;
+            if (ProductType != null)
+            {
+                if (this.ProductType.Contains("FoodAndBeverageItems"))
+                {
+                    FoodsAndBeverageItems foods = new FoodsAndBeverageItems();
+                    price = foods.calculateProductUnitPrice();
+
+                }
+                else if (this.ProductType.Contains("MaterialItems"))
+                {
+                    MaterialItems materials = new MaterialItems();
+                    price = materials.calculateProductUnitPrice();
+                }
+                else if (this.ProductType.Contains("GarmentItems"))
+                {
+                    GarmentItems garments = new GarmentItems();
+                    price = garments.calculateProductUnitPrice();
+                }
+                else if (this.ProductType.Contains("TransportationServices"))
+                {
+                    TransportationServices transportations = new TransportationServices();
+                    price = transportations.calculateProductUnitPrice(condition, userDemand, duration);
+                }
+                else if (this.ProductType.Contains("TelecommunicationServices"))
+                {
+                    TelecommunicationServices telecommunications = new TelecommunicationServices();
+                    price = telecommunications.calculateProductUnitPrice(condition, userDemand, duration);
+                }
+                else
+                {
+                    price = 0;
+                }
+                return price;
+            }
+            return 0;
+        }
+
+        public Product insertToProduct()
         {
             var description = "";
-            decimal? price = null;
             var config = new MapperConfiguration(cfg => { });
             var mapper = new Mapper(config);
 
@@ -78,32 +147,27 @@ namespace Northwind.ViewModels
             {
                 FoodsAndBeverageItems foods = mapper.Map<FoodsAndBeverageItems>(this.ProductDetail);
                 description = foods.convertItemsToString();
-                price = foods.calculateProductUnitPrice();
 
             }
             else if (this.ProductType.Contains("MaterialItems"))
             {
                 MaterialItems materials = mapper.Map<MaterialItems>(this.ProductDetail);
                 description = materials.convertItemsToString();
-                price = materials.calculateProductUnitPrice();
             }
             else if (this.ProductType.Contains("GarmentItems"))
             {
                 GarmentItems garments = mapper.Map<GarmentItems>(this.ProductDetail);
                 description = garments.convertItemsToString();
-                price = garments.calculateProductUnitPrice();
             }
             else if (this.ProductType.Contains("TransportationServices"))
             {
                 TransportationServices transportations = mapper.Map<TransportationServices>(this.ProductDetail);
                 description = transportations.convertServicesToString();
-                price = transportations.calculateProductUnitPrice(condition, userDemand, duration);
             }
             else if (this.ProductType.Contains("TelecommunicationServices"))
             {
                 TelecommunicationServices telecommunications = mapper.Map<TelecommunicationServices>(this.ProductDetail);
                 description = telecommunications.convertServicesToString();
-                price = telecommunications.calculateProductUnitPrice(condition, userDemand, duration);
             }
 
             return new Product()
@@ -113,7 +177,7 @@ namespace Northwind.ViewModels
                 SupplierID = this.SupplierID,
                 CategoryID = this.CategoryID,
                 QuantityPerUnit = this.QuantityPerUnit,
-                UnitPrice = price,
+                UnitPrice = this.UnitPrice,
                 UnitsInStock = this.UnitsInStock,
                 UnitsOnOrder = this.UnitsOnOrder,
                 ReorderLevel = this.ReorderLevel,
@@ -123,7 +187,7 @@ namespace Northwind.ViewModels
             };
         }
 
-        public Dictionary<string, object> FinalResult(List<CustomProductViewModel> listObject = null, string msg = "")
+        public Dictionary<string, object> finalResult(List<CustomProductViewModel> listObject = null, string msg = "")
         {
             Dictionary<string, object> result = new Dictionary<string, object>();
             result.Add("Message", msg);

@@ -1,41 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.Collections.Generic;
 using Northwind.EntityFrameworks;
 
-namespace Northwind.ViewModels.Items
+namespace Northwind.Domain.Models.ProductDetails.Items.Details
 {
-    public class MaterialItems : ProductDetailViewModel, IItems
+    public class Material : Item
     {
-        public string ProductionCode { get; set; }
-        public string ProductionDate { get; set; }
         public string ExpiredDate { get; set; }
         public string MaterialsType { get; set; }
-        public string UnitOfMeasurement { get; set; }
         public string IsConsumable { get; set; }
-        public string CostRate { get; set; }
 
-        public char delimiter()
-        {
-            return '|';
-        }
-
-        public MaterialItems()
-        {
-
-        }
-
-        public MaterialItems(Product product)
+        public Material(char Delimeter, Product product) : base(Delimeter)
         {
             this.ProductID = product.ProductID;
-
             if (!string.IsNullOrEmpty(product.ProductDetail))
             {
-                string[] prod = product.ProductDetail.Split(delimiter());
-
+                string[] prod = product.ProductDetail.Split(this.Delimeter);
                 this.ProductDescription = prod[0];
                 this.UnitProfit = prod[1];
                 this.ProductionCode = prod[2];
@@ -48,10 +27,9 @@ namespace Northwind.ViewModels.Items
             }
         }
 
-        public Dictionary<string, object> fromItemsToDict()
+        public override Dictionary<string, object> ConvertToDictionary()
         {
             Dictionary<string, object> mateDict = new Dictionary<string, object>();
-
             mateDict.Add("ProductID", this.ProductID);
             mateDict.Add("ProductDescription", this.ProductDescription);
             mateDict.Add("UnitProfit", this.UnitProfit);
@@ -66,24 +44,11 @@ namespace Northwind.ViewModels.Items
             return mateDict;
         }
 
-        public string convertItemsToString()
+        public override string ConvertToString()
         {
-            return
-                this.ProductDescription + delimiter() +
-                this.UnitProfit + delimiter() +
-                this.ProductionCode + delimiter() +
-                this.ProductionDate + delimiter() +
-                this.ExpiredDate + delimiter() +
-                this.MaterialsType + delimiter() +
-                this.UnitOfMeasurement + delimiter() +
-                this.IsConsumable + delimiter() +
-                this.CostRate;
-        }
-
-        public decimal calculateProductUnitPrice()
-        {
-            var result = decimal.Parse(CostRate) * (Convert.ToDecimal(110) / Convert.ToDecimal(100));
-            return result;
+            return this.appendWithDelimiter(
+                 this.ProductDescription, this.UnitProfit, this.ProductionCode, this.ProductionDate, this.ExpiredDate, this.MaterialsType,
+                 this.IsConsumable, this.UnitOfMeasurement, this.CostRate);
         }
     }
 }

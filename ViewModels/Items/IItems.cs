@@ -12,6 +12,7 @@ namespace Northwind.ViewModels.Items
     {
         string UnitOfMeasurement { get; set; }
         string CostRate { get; set; }
+
         char delimiter();
 
         Dictionary<string, object> fromItemsToDict();
